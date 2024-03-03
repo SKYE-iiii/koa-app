@@ -5,10 +5,10 @@ class userController {
     /** 获取用户请求数据 */
     const userData = ctx.request.body;
     /** 查询数据 */
-    const { msg, data } = await userService.create(userData);
+    const result = await userService.create(userData);
     /** 返回数据 */
-    ctx.body = msg;
-    console.log("用户数据创建成功", data);
+    ctx.body = result;
+    console.log("用户数据创建成功");
   }
 }
 
