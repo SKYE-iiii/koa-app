@@ -3,12 +3,13 @@
  * @Author: zyj
  * @Date: 2024-03-04 10:30:37
  * @LastEditors: zyj
- * @LastEditTime: 2024-03-04 11:00:35
+ * @LastEditTime: 2024-03-04 14:04:12
  * @FilePath: \koa-app\src\service\user.service.js
  * @Description:
  */
 
 const connections = require("../app/database");
+
 /** 向数据库中添加数据 */
 class userService {
   async create({ name, password }) {
