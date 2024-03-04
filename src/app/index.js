@@ -9,4 +9,8 @@ const userRouter = require("../router/user.router");
 app.use(bodyParser());
 app.use(userRouter.routes()).use(userRouter.allowedMethods());
 
+/** 错误处理 */
+const errorHandler = require("./error-handler");
+app.on("error", errorHandler);
+
 module.exports = app;
