@@ -1,8 +1,11 @@
-const { errorTypeEnum } = require("../utils/enumList");
+const { userErrorTypeEnum } = require("../utils/enumList");
 const errorHandler = (error, ctx) => {
-  const { message, status } = errorTypeEnum[error.message];
-  ctx.body = message;
-  ctx.status = status;
+  const errorItem = userErrorTypeEnum[error.message] || {
+    message: error.message,
+    status: 500,
+  };
+  ctx.body = errorItem.message;
+  ctx.status = errorItem.status;
 };
 
 module.exports = errorHandler;

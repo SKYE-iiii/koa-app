@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-03-04 10:30:37
  * @LastEditors: zyj
- * @LastEditTime: 2024-03-04 14:04:12
+ * @LastEditTime: 2024-03-05 16:08:32
  * @FilePath: \koa-app\src\service\user.service.js
  * @Description:
  */
@@ -18,6 +18,13 @@ class userService {
     const result = await connections.execute(statement, [name, password]);
     /** 返回数据 */
     return result;
+  }
+
+  /** 根据用户名查用户数据 */
+  async getUserByName(name) {
+    const statement = `SELECT * FROM users WHERE name = ?;`;
+    const result = await connections.execute(statement, [name]);
+    return result[0];
   }
 }
 
