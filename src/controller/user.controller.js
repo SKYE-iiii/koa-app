@@ -4,6 +4,7 @@ class userController {
   async create(ctx, next) {
     /** 获取用户请求数据 */
     const userData = ctx.request.body;
+    console.log(userData,'userData');
     /** 查询数据 */
     const result = await userService.create(userData);
     /** 返回数据 */

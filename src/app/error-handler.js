@@ -1,4 +1,4 @@
-const { userErrorTypeEnum } = require("../utils/enumList");
+const { userErrorTypeEnum } = require("../utils/enum-config");
 const errorHandler = (error, ctx) => {
   const errorItem = userErrorTypeEnum[error.message] || {
     message: error.message,

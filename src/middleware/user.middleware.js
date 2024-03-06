@@ -1,8 +1,9 @@
-const { isEmpty } = require("../utils/index");
+const { isEmpty, validatePassword } = require("../utils/index");
 const {
   NAME_OR_PASSWORD_IS_REQUIRED,
   USER_ALREADY_EXISTS,
 } = require("../constants/error-types");
+const { md5Password } = require("../utils/handle-password");
 const userService = require("../service/user.service");
 
 /** 校验用户信息 */
@@ -24,6 +25,21 @@ const verifyUser = async (ctx, next) => {
   await next();
 };
 
+/** 校验密码&&加密密码 */
+const handlePassword = async (ctx, next) => {
+  const { password } = ctx.request.body;
+  // /** 校验密码 */
+  if (!validatePassword(password)) {
+    const error = new Error("密码长度不能小于6位且必须包含大小写字母");
+    return ctx.app.emit("error", error, ctx);
+  }
+  /** 加密密码 */
+  ctx.request.body.password = md5Password(password);
+  console.log(ctx.request.body.password, "ctx.request.body.password ");
+  await next();
+};
+
 module.exports = {
   verifyUser,
+  handlePassword,
 };

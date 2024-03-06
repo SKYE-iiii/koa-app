@@ -16,6 +16,7 @@ class userService {
     /** 将用户数据保存至数据库中 */
     const statement = `INSERT INTO users (name,password) VALUES (?,?); `;
     const result = await connections.execute(statement, [name, password]);
+    console.log(result, "result");
     /** 返回数据 */
     return result;
   }
