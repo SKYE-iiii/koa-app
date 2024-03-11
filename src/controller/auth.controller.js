@@ -1,7 +1,7 @@
 class AuthController {
   async login(ctx, next) {
-    console.log(ctx.request.body);
-    ctx.body = "登录接口";
+    const { name } = ctx.request.body;
+    ctx.body = `${name}登陆成功`;
   }
 }
 

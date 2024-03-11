@@ -11,6 +11,10 @@ const userErrorTypeEnum = {
     message: "用户已存在",
     status: 409,
   },
+  user_does_not_exists: {
+    message: "用户不存在",
+    status: 409,
+  },
   not_found: {
     message: "资源不存在",
     status: 404,

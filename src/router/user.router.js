@@ -6,11 +6,12 @@ const {
   verifyUser,
   handlePassword,
 } = require("../middleware/user.middleware.js");
+const { judgingEmpty } = require("../middleware/judgingEmpty.middleware.js");
 const userRouter = new Router({
   prefix: "/users",
 });
 
 /** 创建用户 */
-userRouter.post("/", verifyUser, handlePassword, create);
+userRouter.post("/", judgingEmpty, verifyUser, handlePassword, create);
 
 module.exports = userRouter;
