@@ -15,6 +15,10 @@ const userErrorTypeEnum = {
     message: "用户不存在",
     status: 409,
   },
+  account_or_password_is_incorrect: {
+    message: "账户或密码错误",
+    status: 400,
+  },
   not_found: {
     message: "资源不存在",
     status: 404,

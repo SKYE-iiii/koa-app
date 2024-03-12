@@ -1,4 +1,7 @@
-const { USER_DOES_NOT_EXISTS } = require("../constants/error-types");
+const {
+  USER_DOES_NOT_EXISTS,
+  ACCOUNT_OR_PASSWORD_IS_INCORRECT,
+} = require("../constants/error-types");
 const { md5Password } = require("../utils/handle-password");
 const userService = require("../service/user.service");
 
@@ -16,7 +19,7 @@ const verifyLogin = async (ctx, next) => {
   /** 校验登录账户与密码一致 */
   const md5Pwd = md5Password(password);
   if (userInfo.password !== md5Pwd) {
-    const error = new Error("账户或密码错误");
+    const error = new Error(ACCOUNT_OR_PASSWORD_IS_INCORRECT);
     return ctx.app.emit("error", error, ctx);
   }
   await next();
