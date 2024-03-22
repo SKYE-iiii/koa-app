@@ -31,6 +31,10 @@ const verifyLogin = async (ctx, next) => {
 
 const verifyToken = async (ctx, next) => {
   const authorization = ctx.request.headers.authorization;
+  if (!authorization) {
+    const error = new Error(INVALID_TOKEN);
+    return ctx.app.emit("error", error, ctx);
+  }
   const token = authorization.replace("Bearer ", "");
   try {
     const res = jwt.verify(token, PUBLIC_KEY, {
