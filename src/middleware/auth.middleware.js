@@ -36,7 +36,7 @@ const verifyToken = async (ctx, next) => {
     const res = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ["RS256"],
     });
-    ctx.body = res;
+    ctx.user = res;
     await next();
   } catch (err) {
     const error = new Error(INVALID_TOKEN);
