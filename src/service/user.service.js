@@ -11,7 +11,7 @@
 const connections = require("../app/database");
 
 /** 向数据库中添加数据 */
-class userService {
+class UserService {
   async create({ name, password }) {
     /** 将用户数据保存至数据库中 */
     const statement = `INSERT INTO users (name,password) VALUES (?,?); `;
@@ -30,4 +30,4 @@ class userService {
   }
 }
 
-module.exports = new userService();
+module.exports = new UserService();
