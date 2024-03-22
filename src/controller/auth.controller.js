@@ -1,7 +1,24 @@
+const jwt = require("jsonwebtoken");
+const { PUBLIC_KEY, PRIVATE_KEY } = require("../app/config");
+
 class AuthController {
   async login(ctx, next) {
-    const { name } = ctx.request.body;
-    ctx.body = `${name}登陆成功`;
+    const { id, name } = ctx.user;
+    /** 生成token */
+    const token = jwt.sign({ id, name }, PRIVATE_KEY, {
+      expiresIn: "1h",
+      algorithm: "RS256",
+    });
+    ctx.body = { id, name, token };
+  }
+
+  async permissionList(ctx, next) {
+    ctx.body = {
+      code: 200,
+      data: ["user", "admin"],
+      message: "获取权限列表成功",
+    };
+    await next();
   }
 }
 

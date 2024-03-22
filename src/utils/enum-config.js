@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Author: zyj
+ * @Date: 2024-03-05 15:15:32
+ * @LastEditors: zyj
+ * @LastEditTime: 2024-03-22 11:43:19
+ * @FilePath: \koa-app\src\utils\enum-config.js
+ */
 const userErrorTypeEnum = {
   name_or_password_is_required: {
     message: "用户名和密码不能为空!",
@@ -26,6 +34,10 @@ const userErrorTypeEnum = {
   internal_server_error: {
     message: "服务器错误",
     status: 500,
+  },
+  invalid_token: {
+    message: "无效token",
+    status: 401,
   },
 };
 
