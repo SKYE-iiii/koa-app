@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-03-22 14:15:29
  * @LastEditors: zyj
- * @LastEditTime: 2024-03-25 11:29:47
+ * @LastEditTime: 2024-03-25 13:55:26
  * @FilePath: \koa-app\src\controller\moment.controller.js
  */
 const momentService = require("../service/moment.service");
@@ -42,6 +42,28 @@ class MomentController {
     }
     ctx.body = res;
     await next();
+  }
+
+  /** 获取分页数据 */
+  async getMomentList(ctx, next) {
+    const { pageSize, pageNum } = ctx.query;
+    if (!pageSize || !pageNum) {
+      const error = new Error("请检查参数");
+      return ctx.app.emit("error", error, ctx);
+    }
+
+    try {
+      const res = await momentService.momentPage({ pageSize, pageNum });
+      ctx.body = {
+        code: 200,
+        message: "获取成功",
+        data: res,
+      };
+      await next();
+    } catch (err) {
+      const error = new Error("获取失败,请稍后重试");
+      return ctx.app.emit("error", error, ctx);
+    }
   }
 }
 
