@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-03-22 14:15:29
  * @LastEditors: zyj
- * @LastEditTime: 2024-03-22 15:41:30
+ * @LastEditTime: 2024-03-25 11:29:47
  * @FilePath: \koa-app\src\controller\moment.controller.js
  */
 const momentService = require("../service/moment.service");
@@ -31,6 +31,17 @@ class MomentController {
       const error = new Error("发布失败,请稍后重试");
       return ctx.app.emit("error", error, ctx);
     }
+  }
+
+  /** 获取动态详情 */
+  async getMomentDetail(ctx, next) {
+    const res = await momentService.momentDetail(ctx.params.id);
+    if (!res) {
+      const error = new Error("动态不存在");
+      return ctx.app.emit("error", error, ctx);
+    }
+    ctx.body = res;
+    await next();
   }
 }
 
