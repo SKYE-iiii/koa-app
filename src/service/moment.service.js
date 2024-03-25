@@ -25,7 +25,6 @@ class MomentService {
    ${fragmentStatement}
     WHERE
       m.id = ?;`;
-
     const result = await connections.execute(statement, [id]);
     return result[0][0];
   }
@@ -42,6 +41,13 @@ class MomentService {
     LIMIT ${startNum},${endNum}; `;
     const result = await connections.execute(statement);
     return result[0];
+  }
+
+  /** 更新动态 */
+  async updated({ content, id }) {
+    const statement = `  UPDATE moments SET content = ? WHERE id = ?;`;
+    const result = await connections.execute(statement, [content, id]);
+    return result;
   }
 }
 

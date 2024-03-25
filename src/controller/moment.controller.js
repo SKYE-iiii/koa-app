@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-03-22 14:15:29
  * @LastEditors: zyj
- * @LastEditTime: 2024-03-25 13:55:26
+ * @LastEditTime: 2024-03-25 15:49:44
  * @FilePath: \koa-app\src\controller\moment.controller.js
  */
 const momentService = require("../service/moment.service");
@@ -62,6 +62,22 @@ class MomentController {
       await next();
     } catch (err) {
       const error = new Error("获取失败,请稍后重试");
+      return ctx.app.emit("error", error, ctx);
+    }
+  }
+
+  /** 更新动态 */
+  async updateMoment(ctx, next) {
+    const params = ctx.request.body;
+    try {
+      await momentService.updated(params);
+      ctx.body = {
+        code: 200,
+        message: "更新成功",
+      };
+      await next();
+    } catch (err) {
+      const error = new Error("更新失败");
       return ctx.app.emit("error", error, ctx);
     }
   }
