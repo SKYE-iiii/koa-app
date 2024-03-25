@@ -3,15 +3,15 @@
  * @Author: zyj
  * @Date: 2024-03-25 15:14:03
  * @LastEditors: zyj
- * @LastEditTime: 2024-03-25 15:54:01
+ * @LastEditTime: 2024-03-25 16:53:14
  * @FilePath: \koa-app\src\middleware\moment.middleware.js
  */
 const momentService = require("../service/moment.service");
 /** 验证发布人 */
 const verifyAuthor = async (ctx, next) => {
+  const params = ctx.request.body.id ? ctx.request.body : ctx.params;
   /** 获取要修改的动态数据 */
-  const { id } = ctx.request.body;
-  const moment = await momentService.momentDetail(id);
+  const moment = await momentService.momentDetail(params.id);
   if (!moment) {
     const error = new Error("动态不存在");
     return ctx.app.emit("error", error, ctx);

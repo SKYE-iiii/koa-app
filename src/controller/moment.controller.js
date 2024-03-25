@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-03-22 14:15:29
  * @LastEditors: zyj
- * @LastEditTime: 2024-03-25 15:49:44
+ * @LastEditTime: 2024-03-25 16:54:29
  * @FilePath: \koa-app\src\controller\moment.controller.js
  */
 const momentService = require("../service/moment.service");
@@ -78,6 +78,19 @@ class MomentController {
       await next();
     } catch (err) {
       const error = new Error("更新失败");
+      return ctx.app.emit("error", error, ctx);
+    }
+  }
+
+  /** 删除动态 */
+  async deleteComment(ctx, next) {
+    const { id } = ctx.params;
+    try {
+      await momentService.delete(id);
+      ctx.body = { code: 200, message: "删除成功" };
+      await next();
+    } catch (err) {
+      const error = new Error("删除失败");
       return ctx.app.emit("error", error, ctx);
     }
   }

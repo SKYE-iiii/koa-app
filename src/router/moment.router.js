@@ -11,10 +11,11 @@ const {
   getMomentDetail,
   getMomentList,
   updateMoment,
+  deleteComment,
 } = require("../controller/moment.controller");
 const Router = require("koa-router");
 const { verifyToken } = require("../middleware/auth.middleware");
-const {verifyAuthor} =require('../middleware/moment.middleware')
+const { verifyAuthor } = require("../middleware/moment.middleware");
 const momentRouter = new Router({ prefix: "/moment" });
 
 /** 发布动态 */
@@ -25,6 +26,6 @@ momentRouter.get("/:id", verifyToken, getMomentDetail);
 momentRouter.get("/", verifyToken, getMomentList);
 /** 更新动态 : 校验作者(只允许发布者进行修改) , 更新动态 */
 momentRouter.put("/", verifyToken, verifyAuthor, updateMoment);
+momentRouter.delete("/:id", verifyToken, verifyAuthor, deleteComment);
 
 module.exports = momentRouter;
- 

@@ -49,6 +49,13 @@ class MomentService {
     const result = await connections.execute(statement, [content, id]);
     return result;
   }
+
+  /** 删除动态 */
+  async delete(id) {
+    const statement = `DELETE FROM moments WHERE id = ?; `;
+    const result = await connections.execute(statement, [id]);
+    return result;
+  }
 }
 
 module.exports = new MomentService();
