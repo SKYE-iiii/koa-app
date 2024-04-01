@@ -1,5 +1,13 @@
+/*
+ * @Description:
+ * @Author: zyj
+ * @Date: 2024-03-06 16:34:48
+ * @LastEditors: zyj
+ * @LastEditTime: 2024-04-01 14:35:11
+ * @FilePath: \koa-app\src\controller\auth.controller.js
+ */
 const jwt = require("jsonwebtoken");
-const { PUBLIC_KEY, PRIVATE_KEY } = require("../app/config");
+const { PRIVATE_KEY } = require("../app/config");
 
 class AuthController {
   async login(ctx, next) {
