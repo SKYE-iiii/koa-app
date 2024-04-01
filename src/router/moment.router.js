@@ -14,8 +14,7 @@ const {
   deleteComment,
 } = require("../controller/moment.controller");
 const Router = require("koa-router");
-const { verifyToken } = require("../middleware/auth.middleware");
-const { verifyAuthor } = require("../middleware/moment.middleware");
+const { verifyToken, verifyAuthor } = require("../middleware/auth.middleware");
 const momentRouter = new Router({ prefix: "/moment" });
 
 /** 发布动态 */

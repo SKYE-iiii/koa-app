@@ -7,7 +7,7 @@
  * @FilePath: \koa-app\src\middleware\moment.middleware.js
  */
 const momentService = require("../service/moment.service");
-/** 验证发布人 */
+/** 验证发布人  --  已抽取为公共方法 - auth.middleware.js */
 const verifyAuthor = async (ctx, next) => {
   const params = ctx.request.body.id ? ctx.request.body : ctx.params;
   /** 获取要修改的动态数据 */

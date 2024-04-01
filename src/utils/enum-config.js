@@ -39,6 +39,10 @@ const userErrorTypeEnum = {
     message: "无效token",
     status: 401,
   },
+  un_permission: {
+    message: "没有权限",
+    status: 401,
+  },
 };
 
 module.exports = {

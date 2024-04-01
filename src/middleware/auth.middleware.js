@@ -3,9 +3,11 @@ const {
   USER_DOES_NOT_EXISTS,
   ACCOUNT_OR_PASSWORD_IS_INCORRECT,
   INVALID_TOKEN,
+  UN_PERMISSION,
 } = require("../constants/error-types");
 const { md5Password } = require("../utils/handle-password");
 const userService = require("../service/user.service");
+const AuthService = require("../service/auth.service");
 const { PUBLIC_KEY } = require("../app/config");
 
 /** 校验登录账户密码 */
@@ -29,7 +31,9 @@ const verifyLogin = async (ctx, next) => {
   await next();
 };
 
+/** 验证token */
 const verifyToken = async (ctx, next) => {
+  console.log("ccccccccccc");
   const authorization = ctx.request.headers.authorization;
   if (!authorization) {
     const error = new Error(INVALID_TOKEN);
@@ -47,7 +51,27 @@ const verifyToken = async (ctx, next) => {
     return ctx.app.emit("error", error, ctx);
   }
 };
+
+/** 验证权限 */
+const verifyAuthor = async (ctx, next) => {
+  /** 获取当前登陆人的数据 */
+  const { id: userId } = ctx.user;
+  /** 获取动态id */
+  const params = ctx.request.body.id ? ctx.request.body : ctx.params;
+
+  /** 查询是否具备权限 */
+  try {
+    const hasPermission = await AuthService.checkMoment(params.id, userId);
+    if (!hasPermission) throw new Error();
+    await next();
+  } catch (err) {
+    const error = new Error(UN_PERMISSION);
+    return ctx.app.emit("error", error, ctx);
+  }
+};
+
 module.exports = {
   verifyLogin,
   verifyToken,
+  verifyAuthor,
 };
