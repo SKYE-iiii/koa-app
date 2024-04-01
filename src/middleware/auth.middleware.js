@@ -33,7 +33,6 @@ const verifyLogin = async (ctx, next) => {
 
 /** 验证token */
 const verifyToken = async (ctx, next) => {
-  console.log("ccccccccccc");
   const authorization = ctx.request.headers.authorization;
   if (!authorization) {
     const error = new Error(INVALID_TOKEN);

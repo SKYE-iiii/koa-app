@@ -12,10 +12,10 @@ const connections = require("../app/database");
 
 /** 向数据库中添加数据 */
 class UserService {
-  async create({ name, password }) {
+  async create({ name, password, remark }) {
     /** 将用户数据保存至数据库中 */
-    const statement = `INSERT INTO users (name,password) VALUES (?,?); `;
-    const result = await connections.execute(statement, [name, password]);
+    const statement = `INSERT INTO users (name,password,remark) VALUES (?,?,?); `;
+    const result = await connections.execute(statement, [name, password,remark]);
     console.log(result, "result");
     /** 返回数据 */
     return result;
