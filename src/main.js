@@ -3,6 +3,6 @@ const config = require("./app/config.js");
 /** 注册database */
 require("./app/database.js");
 
-app.listen(config.APP_PORT, "127.0.0.2", () => {
+app.listen(config.APP_PORT, () => {
   console.log("koa初体验服务器已启动");
 });

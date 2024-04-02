@@ -7,12 +7,13 @@
  * @FilePath: \koa-app\src\router\comment.router.js
  */
 const { verifyToken } = require("../middleware/auth.middleware");
-const { create } = require("../controller/comment.controller");
+const { create, reply } = require("../controller/comment.controller");
 const Router = require("koa-router");
 const commentRouter = new Router({
   prefix: "/comment",
 });
 
 commentRouter.post("/", verifyToken, create);
+commentRouter.post("/reply", verifyToken, reply);
 
 module.exports = commentRouter;
