@@ -17,7 +17,11 @@ class AuthController {
       expiresIn: "1h",
       algorithm: "RS256",
     });
-    ctx.body = { id, name, token };
+    ctx.body = {
+      success: true,
+      message: "登录成功",
+      data: { id, name, token },
+    };
   }
 
   async permissionList(ctx, next) {
