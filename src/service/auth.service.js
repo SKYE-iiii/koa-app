@@ -10,7 +10,7 @@ const connections = require("../app/database");
 
 class AuthService {
   /** 验证动态权限 */
-  async checkMoment(keyword, id, userId) {
+  async checkPermission(keyword, id, userId) {
     const statement = `SELECT * FROM ${keyword} WHERE id = ? AND user_id = ?;`;
     const result = await connections.execute(statement, [id, userId]);
     return result[0].length > 0;

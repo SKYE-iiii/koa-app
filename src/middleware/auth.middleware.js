@@ -61,7 +61,11 @@ const verifyAuthor = (keyword) => {
 
     /** 查询是否具备权限 */
     try {
-      const hasPermission = await AuthService.checkMoment(keyword,params.id, userId);
+      const hasPermission = await AuthService.checkPermission(
+        keyword,
+        params.id,
+        userId
+      );
       if (!hasPermission) throw new Error();
       await next();
     } catch (err) {
