@@ -52,21 +52,23 @@ const verifyToken = async (ctx, next) => {
 };
 
 /** 验证权限 */
-const verifyAuthor = async (ctx, next) => {
-  /** 获取当前登陆人的数据 */
-  const { id: userId } = ctx.user;
-  /** 获取动态id */
-  const params = ctx.request.body.id ? ctx.request.body : ctx.params;
+const verifyAuthor = (keyword) => {
+  return async (ctx, next) => {
+    /** 获取当前登陆人的数据 */
+    const { id: userId } = ctx.user;
+    /** 获取动态id */
+    const params = ctx.request.body.id ? ctx.request.body : ctx.params;
 
-  /** 查询是否具备权限 */
-  try {
-    const hasPermission = await AuthService.checkMoment(params.id, userId);
-    if (!hasPermission) throw new Error();
-    await next();
-  } catch (err) {
-    const error = new Error(UN_PERMISSION);
-    return ctx.app.emit("error", error, ctx);
-  }
+    /** 查询是否具备权限 */
+    try {
+      const hasPermission = await AuthService.checkMoment(keyword,params.id, userId);
+      if (!hasPermission) throw new Error();
+      await next();
+    } catch (err) {
+      const error = new Error(UN_PERMISSION);
+      return ctx.app.emit("error", error, ctx);
+    }
+  };
 };
 
 module.exports = {

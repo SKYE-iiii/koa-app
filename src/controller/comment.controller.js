@@ -46,6 +46,14 @@ class CommentController {
       }
     };
   }
+
+  /** 更新评论 */
+  update(ctx, next) {
+    ctx.body = {
+      code: 200,
+      message: "更新评论",
+    };
+  }
 }
 
 module.exports = new CommentController();

@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-03-22 14:11:53
  * @LastEditors: zyj
- * @LastEditTime: 2024-03-25 15:24:10
+ * @LastEditTime: 2024-04-03 11:21:11
  * @FilePath: \koa-app\src\router\moment.router.js
  */
 const {
@@ -24,7 +24,12 @@ momentRouter.get("/:id", verifyToken, getMomentDetail);
 /** 获取动态列表 */
 momentRouter.get("/", verifyToken, getMomentList);
 /** 更新动态 : 校验作者(只允许发布者进行修改) , 更新动态 */
-momentRouter.put("/", verifyToken, verifyAuthor, updateMoment);
-momentRouter.delete("/:id", verifyToken, verifyAuthor, deleteComment);
+momentRouter.put("/", verifyToken, verifyAuthor("moments"), updateMoment);
+momentRouter.delete(
+  "/:id",
+  verifyToken,
+  verifyAuthor("moments"),
+  deleteComment
+);
 
 module.exports = momentRouter;

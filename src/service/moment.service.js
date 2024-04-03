@@ -9,12 +9,12 @@ const fragmentStatement = `
       JSON_OBJECT( 'id', u.id, 'name', u.name ) user_data 
     FROM
       moments m
-      LEFT JOIN users u ON m.userId = u.id 
+      LEFT JOIN users u ON m.user_id = u.id 
 `;
 class MomentService {
   /** 添加动态语句 */
   async create({ content, userId }) {
-    const statement = `INSERT INTO moments (content,userId) VALUES (?,?);`;
+    const statement = `INSERT INTO moments (content,user_id) VALUES (?,?);`;
     const result = await connections.execute(statement, [content, userId]);
     return result;
   }
