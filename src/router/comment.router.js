@@ -3,17 +3,17 @@
  * @Author: zyj
  * @Date: 2024-04-01 14:33:19
  * @LastEditors: zyj
- * @LastEditTime: 2024-04-01 14:34:24
+ * @LastEditTime: 2024-04-03 09:46:49
  * @FilePath: \koa-app\src\router\comment.router.js
  */
 const { verifyToken } = require("../middleware/auth.middleware");
-const { create, reply } = require("../controller/comment.controller");
+const { createAndReply } = require("../controller/comment.controller");
 const Router = require("koa-router");
 const commentRouter = new Router({
   prefix: "/comment",
 });
 
-commentRouter.post("/", verifyToken, create);
-commentRouter.post("/reply", verifyToken, reply);
+commentRouter.post("/", verifyToken, createAndReply("create"));
+commentRouter.post("/reply", verifyToken, createAndReply("reply"));
 
 module.exports = commentRouter;
