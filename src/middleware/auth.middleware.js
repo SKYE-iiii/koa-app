@@ -58,7 +58,6 @@ const verifyAuthor = (keyword) => {
     const { id: userId } = ctx.user;
     /** 获取动态id */
     const params = ctx.request.body.id ? ctx.request.body : ctx.params;
-
     /** 查询是否具备权限 */
     try {
       const hasPermission = await AuthService.checkPermission(

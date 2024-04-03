@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-04-01 14:35:28
  * @LastEditors: zyj
- * @LastEditTime: 2024-04-03 09:55:42
+ * @LastEditTime: 2024-04-03 13:51:52
  * @FilePath: \koa-app\src\controller\comment.controller.js
  */
 
@@ -48,11 +48,41 @@ class CommentController {
   }
 
   /** 更新评论 */
-  update(ctx, next) {
-    ctx.body = {
-      code: 200,
-      message: "更新评论",
-    };
+  async update(ctx, next) {
+    const { id, content } = ctx.request.body;
+    if (!content) {
+      const error = new Error("内容不能为空");
+      return ctx.app.emit("error", error, ctx);
+    }
+    try {
+      const result = await commentService.update(id, content);
+      ctx.body = {
+        code: 200,
+        message: "更新评论",
+        data: result,
+      };
+      await next();
+    } catch (err) {
+      const error = new Error(`修改失败,请重试`);
+      return ctx.app.emit("error", error, ctx);
+    }
+  }
+
+  /** 删除评论 */
+  async remove(ctx, next) {
+    const { id } = ctx.params;
+    try {
+      const result = await commentService.remove(id);
+      ctx.body = {
+        code: 200,
+        message: "删除评论",
+        data: result,
+      };
+      await next();
+    } catch (err) {
+      const error = new Error(`删除失败,请重试`);
+      return ctx.app.emit("error", error, ctx);
+    }
   }
 }
 
