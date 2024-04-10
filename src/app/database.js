@@ -16,5 +16,8 @@ connections.getConnection((err, conn) => {
     console.log("Connected to the MySQL server successfully!");
   });
 });
+connections.on("error", (err) => {
+  console.error("MySQL Pool Error:", err);
+});
 
 module.exports = connections.promise();

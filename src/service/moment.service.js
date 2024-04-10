@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-03-22 15:06:19
  * @LastEditors: zyj
- * @LastEditTime: 2024-04-09 09:51:25
+ * @LastEditTime: 2024-04-10 10:11:23
  * @FilePath: \koa-app\src\service\moment.service.js
  */
 const connections = require("../app/database");
@@ -35,6 +35,46 @@ class MomentService {
       m.id = ?;`;
     const result = await connections.execute(statement, [id]);
     return result[0][0];
+  }
+  /** 根据动态id获取动态详情+评论 */
+  async momentDetailWithComment(id) {
+    console.log(id, "i");
+    const statement = `
+      SELECT
+	        m.id id,
+	        m.content content,
+	        m.createTime createTime,
+	        m.updateTime updateTime,
+	        JSON_OBJECT( 'id', u.id, 'name', u.name ) user_data,
+	        JSON_ARRAYAGG(
+		        JSON_OBJECT(
+			        'id',
+			        c.id,
+			        'content',
+			        c.content,
+			        'commentId',
+			        c.comment_id,
+			        'createTime',
+			        c.createTime,
+			        'user',
+		          JSON_OBJECT( 'id', cu.id, 'name', cu.name )
+            )
+          ) commentList
+      FROM
+	      moments m
+	      LEFT JOIN users u ON m.user_id = u.id
+	      LEFT JOIN comment c ON m.id = c.moment_id
+	      LEFT JOIN users cu ON c.user_id = cu.id 
+      WHERE
+        m.id = ?
+      GROUP BY m.id;`;
+
+    try {
+      const result = await connections.execute(statement, [id]);
+      return result[0][0];
+    } catch (error) {
+      console.log(error, "error");
+    }
   }
 
   /**
