@@ -3,9 +3,10 @@
  * @Author: zyj
  * @Date: 2024-03-22 14:15:29
  * @LastEditors: zyj
- * @LastEditTime: 2024-03-25 16:54:29
+ * @LastEditTime: 2024-04-09 09:58:18
  * @FilePath: \koa-app\src\controller\moment.controller.js
  */
+const commentService = require("../service/comment.service");
 const momentService = require("../service/moment.service");
 class MomentController {
   async publishMoment(ctx, next) {
@@ -33,14 +34,23 @@ class MomentController {
     }
   }
 
-  /** 获取动态详情 */
+  /** 获取动态详情
+   *  获取动态详情-评论列表
+   * 实现思路一 : 获取动态详情, 再根据详情id查询关联的评论列表数据(2次请求)
+   * 实现思路二 : 请求动态的接口时,携带评论的列表 (一个接口实现)
+   */
   async getMomentDetail(ctx, next) {
     const res = await momentService.momentDetail(ctx.params.id);
     if (!res) {
       const error = new Error("动态不存在");
       return ctx.app.emit("error", error, ctx);
     }
-    ctx.body = res;
+
+    const commentList = await commentService.commentListByMomentId(res.id);
+    ctx.body = {
+      ...res,
+      commentList,
+    };
     await next();
   }
 

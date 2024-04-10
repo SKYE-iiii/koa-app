@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-04-01 14:35:28
  * @LastEditors: zyj
- * @LastEditTime: 2024-04-03 13:51:52
+ * @LastEditTime: 2024-04-09 10:20:32
  * @FilePath: \koa-app\src\controller\comment.controller.js
  */
 
@@ -81,6 +81,19 @@ class CommentController {
       await next();
     } catch (err) {
       const error = new Error(`删除失败,请重试`);
+      return ctx.app.emit("error", error, ctx);
+    }
+  }
+
+  /** 获取评论列表 */
+  async list(ctx, next) {
+    const { momentId } = ctx.params;
+    try {
+      const commentList = await commentService.commentListByMomentId(momentId);
+      ctx.body = { code: 200, message: "获取评论列表成功", data: commentList };
+      await next();
+    } catch (err) {
+      const error = new Error(`获取失败,请重试`);
       return ctx.app.emit("error", error, ctx);
     }
   }

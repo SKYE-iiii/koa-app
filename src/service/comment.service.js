@@ -3,7 +3,7 @@
  * @Author: zyj
  * @Date: 2024-04-01 14:37:24
  * @LastEditors: zyj
- * @LastEditTime: 2024-04-03 14:05:28
+ * @LastEditTime: 2024-04-09 10:02:35
  * @FilePath: \koa-app\src\service\comment.service.js
  */
 
@@ -37,6 +37,13 @@ class CommentService {
   async remove(id) {
     const statement = `DELETE FROM comment WHERE id = ?;`;
     const result = await connections.execute(statement, [id]);
+    return result[0];
+  }
+
+  /** 查询动态详情- 评论列表 */
+  async commentListByMomentId(momentId) {
+    const statement = `SELECT * FROM comment WHERE moment_id = ?;`;
+    const result = await connections.execute(statement, [momentId]);
     return result[0];
   }
 }

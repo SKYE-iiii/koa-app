@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Author: zyj
+ * @Date: 2024-03-22 15:06:19
+ * @LastEditors: zyj
+ * @LastEditTime: 2024-04-09 09:51:25
+ * @FilePath: \koa-app\src\service\moment.service.js
+ */
 const connections = require("../app/database");
 
 const fragmentStatement = `
@@ -37,8 +45,17 @@ class MomentService {
     const startNum = (pageNum - 1) * pageSize;
     const endNum = pageNum * pageSize;
     const statement = `
-    ${fragmentStatement}
-    LIMIT ${startNum},${endNum}; `;
+    SELECT
+	    m.id id,
+	    m.content content,
+	    m.createTime createTime,
+	    m.updateTime updateTime,
+	    JSON_OBJECT( 'id', u.id, 'name', u.name ) user_data , 
+	    (SELECT COUNT(*) FROM comment c WHERE c.moment_id = m.id) commentCount 
+    FROM
+	    moments m
+	    LEFT JOIN users u ON m.user_id = u.id 
+	  LIMIT ${startNum},${endNum};`;
     const result = await connections.execute(statement);
     return result[0];
   }

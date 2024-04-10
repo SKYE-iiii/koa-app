@@ -11,6 +11,7 @@ const {
   createAndReply,
   update,
   remove,
+  list,
 } = require("../controller/comment.controller");
 const Router = require("koa-router");
 const commentRouter = new Router({
@@ -25,5 +26,7 @@ commentRouter.post("/reply", verifyToken, createAndReply("reply"));
 commentRouter.put("/", verifyToken, verifyAuthor("comment"), update);
 /** 删除评论 */
 commentRouter.delete("/:id", verifyToken, verifyAuthor("comment"), remove);
+/** 获取评论列表 */
+commentRouter.get("/:momentId", list);
 
 module.exports = commentRouter;
